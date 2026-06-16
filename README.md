@@ -1,104 +1,59 @@
-# 🎓 Professor Nova AI
+# CodeAlpha Music Generation with AI
 
-Professor Nova AI is an intelligent FAQ Chatbot developed using Python, Streamlit, and Natural Language Processing (NLP).
+## Overview
 
-The chatbot answers user questions by finding the most relevant answer from a predefined FAQ dataset using TF-IDF Vectorization and Cosine Similarity.
+This project generates music using Artificial Intelligence and Deep Learning.
 
----
+## Technologies Used
 
-## 🚀 Features
+* Python
+* TensorFlow
+* Keras
+* Music21
+* NumPy
 
-- Interactive AI Chatbot
-- Modern Futuristic User Interface
-- FAQ-Based Question Answering
-- NLP-Powered Search
-- Fast Response System
-- User-Friendly Design
-- Real-Time Answer Display
+## Dataset
 
----
+The model was trained on Beethoven MIDI files.
 
-## 🛠 Technologies Used
+## Features
 
-- Python
-- Streamlit
-- Pandas
-- Scikit-Learn
-- NLP (Natural Language Processing)
-- TF-IDF Vectorization
-- Cosine Similarity
+* Reads MIDI files
+* Extracts musical notes and chords
+* Trains an LSTM neural network
+* Generates new music sequences
+* Saves generated music as a MIDI file
 
----
+## Project Structure
 
-## 📁 Project Structure
+CodeAlpha_MusicGeneration/
 
-```text
-FAQ_Chatbot/
-│
-├── app.py
-├── faq.csv
-├── requirements.txt
-└── README.md
-```
+* midi_dataset/
+* model/
+* output/
+* train.py
+* generate.py
+* requirements.txt
+* README.md
 
----
+## How to Run
 
-## ⚙ Installation
+Install dependencies:
 
-Install required packages:
-
-```bash
 pip install -r requirements.txt
-```
 
----
+Train the model:
 
-## ▶ Run Project
+python train.py
 
-```bash
-streamlit run app.py
-```
+Generate music:
 
----
+python generate.py
 
-## 🔄 Workflow
+Generated file:
 
-```text
-User Question
-      ↓
-FAQ Dataset
-      ↓
-TF-IDF Vectorization
-      ↓
-Cosine Similarity
-      ↓
-Best Match Search
-      ↓
-Display Answer
-```
+output/generated_music.mid
 
----
+## Output
 
-## 📚 Sample Questions
-
-- What is Artificial Intelligence?
-- What is Machine Learning?
-- What is Python?
-- What is NLP?
-- What is SQL?
-
----
-
-## 🎯 Objective
-
-The objective of this project is to build a smart FAQ chatbot capable of answering user questions by identifying the most relevant response from a knowledge base.
-
----
-
-## 👩‍💻 Developed By
-
-Krupa
-
-Internship Project
-
-Professor Nova AI – Intelligent FAQ Chatbot
+The trained model generates new musical note sequences and stores them in MIDI format.
