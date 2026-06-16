@@ -1,117 +1,284 @@
 import streamlit as st
-from googletrans import Translator
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-translator = Translator()
+# -----------------------------------
+# PAGE CONFIG
+# -----------------------------------
 
-# Page Configuration
 st.set_page_config(
-    page_title="Language Translator",
-    page_icon="🌍",
-    layout="centered"
+    page_title="Professor Nova AI",
+    page_icon="🎓",
+    layout="wide"
 )
 
-# Custom CSS
+# -----------------------------------
+# LOAD FAQ
+# -----------------------------------
+
+faq = pd.read_csv("faq.csv")
+
+# -----------------------------------
+# SESSION STATE
+# -----------------------------------
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# -----------------------------------
+# CUSTOM CSS
+# -----------------------------------
+
 st.markdown("""
 <style>
-.main {
-    background-color: #f5f7fa;
+
+.stApp{
+    background: linear-gradient(
+        135deg,
+        #050816,
+        #0f172a,
+        #111827
+    );
 }
 
-.title {
-    text-align: center;
-    color: #1f4e79;
-    font-size: 40px;
-    font-weight: bold;
+.main-title{
+    text-align:center;
+    padding:20px;
 }
 
-.subtitle {
-    text-align: center;
-    color: gray;
-    margin-bottom: 20px;
+.main-title h1{
+    color:#00e5ff;
+    font-size:55px;
 }
 
-.stButton>button {
-    width: 100%;
-    background-color: #1f77b4;
-    color: white;
-    border-radius: 10px;
-    height: 50px;
-    font-size: 18px;
+.main-title p{
+    color:#cbd5e1;
+    font-size:20px;
 }
 
-.stTextArea textarea {
-    border-radius: 10px;
+.orb{
+    text-align:center;
+    font-size:90px;
+    animation: pulse 2s infinite;
 }
 
-.result-box {
-    background-color: #e8f5e9;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 20px;
-    color: #2e7d32;
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
 }
+
+.user-card{
+    background:#7c3aed;
+    color:white;
+    padding:15px;
+    border-radius:20px;
+    margin-top:10px;
+    margin-bottom:10px;
+    text-align:right;
+    font-size:18px;
+}
+
+.bot-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    color:white;
+    padding:20px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.2);
+    margin-bottom:20px;
+    font-size:18px;
+}
+
+.info-card{
+    background:rgba(255,255,255,0.08);
+    color:white;
+    padding:20px;
+    border-radius:20px;
+    margin-top:20px;
+}
+
+.footer{
+    text-align:center;
+    color:#94a3b8;
+    margin-top:30px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
-# Header
-st.markdown(
-    '<p class="title">🌍 AI Language Translator</p>',
-    unsafe_allow_html=True
+# -----------------------------------
+# HEADER
+# -----------------------------------
+
+st.markdown("""
+<div class="orb">
+🔮
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="main-title">
+<h1>Professor Nova AI</h1>
+<p>Your Personal Learning Assistant</p>
+</div>
+""", unsafe_allow_html=True)
+
+# -----------------------------------
+# SIDEBAR
+# -----------------------------------
+
+with st.sidebar:
+
+    st.title("🎓 Professor Nova")
+
+    st.success("System Online")
+
+    st.write("---")
+
+    st.subheader("📚 Subjects")
+
+    st.write("""
+    • Artificial Intelligence
+    
+    • Machine Learning
+    
+    • Python
+    
+    • NLP
+    
+    • SQL
+    
+    • Database
+    """)
+
+    st.write("---")
+
+    st.subheader("⚡ Features")
+
+    st.write("""
+    ✔ Instant Answers
+    
+    ✔ AI Search
+    
+    ✔ FAQ Knowledge Base
+    
+    ✔ Modern Interface
+    """)
+
+# -----------------------------------
+# INPUT
+# -----------------------------------
+
+question = st.text_input(
+    "Ask Question",
+    placeholder="Example: What is Machine Learning?"
 )
 
-st.markdown(
-    '<p class="subtitle">Translate text instantly into multiple languages</p>',
-    unsafe_allow_html=True
-)
+# -----------------------------------
+# FIND ANSWER
+# -----------------------------------
 
-# Input
-text = st.text_area(
-    "✍ Enter Text",
-    height=150,
-    placeholder="Type your text here..."
-)
+if st.button("🚀 Ask Nova"):
 
-# Language Selection
-col1, col2 = st.columns(2)
+    if question.strip():
 
-with col1:
-    source_lang = st.selectbox(
-        "📥 Source Language",
-        ["English", "Hindi", "Marathi"]
-    )
+        questions = faq["Question"].tolist()
 
-with col2:
-    target_lang = st.selectbox(
-        "📤 Target Language",
-        ["English", "Hindi", "Marathi"]
-    )
+        vectorizer = TfidfVectorizer()
 
-# Translate Button
-if st.button("🚀 Translate"):
-
-    if text.strip() == "":
-        st.warning("Please enter some text.")
-    else:
-        translated = translator.translate(
-            text,
-            src=source_lang,
-            dest=target_lang
+        vectors = vectorizer.fit_transform(
+            questions + [question]
         )
 
-        st.markdown("### ✅ Translation Result")
-
-        st.markdown(
-            f"""
-            <div class="result-box">
-            {translated.text}
-            </div>
-            """,
-            unsafe_allow_html=True
+        similarity = cosine_similarity(
+            vectors[-1],
+            vectors[:-1]
         )
 
-# Footer
-st.markdown("---")
-st.markdown(
-    "<center>Made with ❤️ using Python & Streamlit</center>",
-    unsafe_allow_html=True
-)
+        score = similarity.max()
+
+        index = similarity.argmax()
+
+        if score < 0.20:
+
+            answer = """
+Sorry Student,
+
+I couldn't find a matching answer in my knowledge base.
+
+Please try another question.
+"""
+
+        else:
+
+            answer = faq.iloc[index]["Answer"]
+
+        st.session_state.chat_history.append(
+            (question, answer)
+        )
+
+# -----------------------------------
+# CHAT HISTORY
+# -----------------------------------
+
+for user_msg, bot_msg in reversed(
+        st.session_state.chat_history):
+
+    st.markdown(
+        f"""
+        <div class="user-card">
+        👨‍🎓 {user_msg}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        f"""
+        <div class="bot-card">
+        <h3>🎓 Professor Nova Says:</h3>
+        <hr>
+        {bot_msg}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# -----------------------------------
+# WELCOME PANEL
+# -----------------------------------
+
+if len(st.session_state.chat_history) == 0:
+
+    st.markdown("""
+    <div class="info-card">
+    <h2>👋 Welcome Student</h2>
+
+    Ask any question from the FAQ knowledge base.
+
+    Examples:
+
+    • What is AI?
+
+    • What is Machine Learning?
+
+    • What is Python?
+
+    • What is NLP?
+
+    • What is SQL?
+    </div>
+    """, unsafe_allow_html=True)
+
+# -----------------------------------
+# FOOTER
+# -----------------------------------
+
+st.markdown("""
+<div class="footer">
+<hr>
+Professor Nova AI • Powered by Python + Streamlit + NLP
+</div>
+""", unsafe_allow_html=True)

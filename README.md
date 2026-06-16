@@ -1,36 +1,104 @@
-# Language Translation Tool
+# 🎓 Professor Nova AI
 
-## Overview
+Professor Nova AI is an intelligent FAQ Chatbot developed using Python, Streamlit, and Natural Language Processing (NLP).
 
-This project is a Language Translation Tool developed using Python, Streamlit, and Googletrans.
+The chatbot answers user questions by finding the most relevant answer from a predefined FAQ dataset using TF-IDF Vectorization and Cosine Similarity.
 
-## Features
+---
 
-* Translate text between multiple languages
-* User-friendly interface
-* Source language selection
-* Target language selection
-* Instant translation output
+## 🚀 Features
 
-## Technologies Used
+- Interactive AI Chatbot
+- Modern Futuristic User Interface
+- FAQ-Based Question Answering
+- NLP-Powered Search
+- Fast Response System
+- User-Friendly Design
+- Real-Time Answer Display
 
-* Python
-* Streamlit
-* Googletrans
+---
 
-## Installation
+## 🛠 Technologies Used
 
-```bash
-pip install streamlit
-pip install googletrans==4.0.0rc1
+- Python
+- Streamlit
+- Pandas
+- Scikit-Learn
+- NLP (Natural Language Processing)
+- TF-IDF Vectorization
+- Cosine Similarity
+
+---
+
+## 📁 Project Structure
+
+```text
+FAQ_Chatbot/
+│
+├── app.py
+├── faq.csv
+├── requirements.txt
+└── README.md
 ```
 
-## Run the Project
+---
+
+## ⚙ Installation
+
+Install required packages:
 
 ```bash
-python -m streamlit run app.py
+pip install -r requirements.txt
 ```
 
-## Author
+---
 
-CodeAlpha AI Internship Project
+## ▶ Run Project
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 🔄 Workflow
+
+```text
+User Question
+      ↓
+FAQ Dataset
+      ↓
+TF-IDF Vectorization
+      ↓
+Cosine Similarity
+      ↓
+Best Match Search
+      ↓
+Display Answer
+```
+
+---
+
+## 📚 Sample Questions
+
+- What is Artificial Intelligence?
+- What is Machine Learning?
+- What is Python?
+- What is NLP?
+- What is SQL?
+
+---
+
+## 🎯 Objective
+
+The objective of this project is to build a smart FAQ chatbot capable of answering user questions by identifying the most relevant response from a knowledge base.
+
+---
+
+## 👩‍💻 Developed By
+
+Krupa
+
+Internship Project
+
+Professor Nova AI – Intelligent FAQ Chatbot
